@@ -1,9 +1,8 @@
 class Book
-  attr_reader :title, :id, :copies
+  attr_reader :title, :id
 
   def initialize(attributes)
     @title = attributes['title']
-    @copies = attributes['copies']
   end
 
   def self.all
@@ -11,15 +10,15 @@ class Book
     books = []
     results.each do |i|
       title = i['title']
-      copies = i['copies']
-      books << Book.new({'title' => title, 'copies' => copies})
+      books << Book.new({'title' => title})
     end
     books
   end
 
-  def save
-    results = DB.exec("INSERT INTO books (title, copies) VALUES ('#{@title}', #{copies}) RETURNING id;")
+  def save(copies)
+    results = DB.exec("INSERT INTO books (title) VALUES ('#{@title}') RETURNING id;")
     @id = results.first['id'].to_i
+    copies.times { DB.exec("INSERT INTO copies (book_id) VALUES (#{@id});") }
   end
 
   def self.delete(title)

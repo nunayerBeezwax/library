@@ -50,8 +50,8 @@ def add_book
   puts "Enter the number of copies"
   copies = gets.chomp.to_i
 
-  new_book = Book.new({'title' => title, 'copies' => copies})
-  new_book.save
+  new_book = Book.new({'title' => title})
+  new_book.save(copies)
 
   author_id = ''
   Author.all.each do |i|
@@ -90,7 +90,6 @@ def search
   end
 end
 
-
 def title_search
   puts "What is the title of the book?"
   choice = gets.chomp
@@ -107,6 +106,24 @@ def author_search
   puts "\n"
   librarian_menu
 end
+
+
+def patron_menu
+  puts "Patron Portal",
+       '-'*30,
+       puts "Press 't' to search for a book by title"
+
+
+      patron searched library  -->
+        search for book by title or author
+            return book with book count
+              patron chooses 'check_out' -->
+              enters title
+              book count goes down by 1
+            or
+        get patron history
+
+
 
 
 
